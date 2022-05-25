@@ -7,24 +7,13 @@
 
 }
 
-body{
-    height: 100vh;
-    width: auto;
-    background-image:url(Images\ and\ GIfs/gif.gif);
-    background-size: cover;
-   background-repeat: no-repeat;
-   background-position: center;
-   overflow: hidden;
-    
-}
 
-
-.container {
+.container-game-over{
+    display: none;
     position: relative;
     height: 100vh;
     width: 600px;
     margin: auto;
-    /* border: 1px solid black; */
 }
 
 .box {
@@ -61,14 +50,14 @@ h2 {
     position: absolute;
     height: 55px;
     display: flex;
+    width: 100%;
+    justify-content: center;
     top:400px;
-    left: 100px;
     z-index: 1;
 
 }
 
-#menu, #restart, #next {
-    margin-left: 60px;
+#restart {
     cursor: pointer;
 }
 
@@ -84,14 +73,14 @@ h2::after {
 
 h2::before {
   background: rgb(134, 60, 60);
-  animation: type 3s steps(20) forwards;
+  animation: type 2s steps(50) forwards;
 }
 
 h2::after {
   width: 1px;
   background: rgb(134, 60, 60);
   animation: 
-    type 3s steps(20) forwards;
+    type 2s steps(50) forwards;
 }
 
 @keyframes type {

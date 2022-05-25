@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="./css/index.css" />
   <link rel="stylesheet" href="./css/loading.css" />
   <link rel="stylesheet" href="./css/levels.css">
-
+  <link rel="stylesheet" href="./css/gameOver.css">
   <title>__PING_PONG_GAME__</title>
 </head>
 
@@ -34,8 +34,6 @@
     </div>
   </div>
   <canvas id="canvas"></canvas>
-
-  <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
   <main class="home-screen">
     <div class="board">
@@ -66,14 +64,29 @@
 
     <div class="levels">
       <img src="./assets/1.png" class="playable" alt="one" id="one">
-      <img src="./assets/2.png" class="playable" alt="two" id="two">
-      <img src="./assets/3.png" class="playable" alt="three" id="three">
-      <img src="./assets/4.png" class="playable" alt="four" id="four">
-      <img src="./assets/5.png" class="playable" alt="five" id="five">
+      <span class="img-wrapper tooltip">
+        <img src="./assets/2.png" class="playable" alt="two" id="two">
+        <!-- <img src="./assets/lock.png" alt="lock"  id="lock">
+        <div class="wrapper-overlay"></div> -->
+      </span>
+      <span class="img-wrapper tooltip">
+        <img src="./assets/3.png" class="playable" alt="three" id="three">
+        <!-- <img src="./assets/lock.png" alt="lock"  id="lock">
+        <div class="wrapper-overlay"></div> -->
+      </span>
+      <span class="img-wrapper tooltip">
+        <img src="./assets/4.png" class="playable" alt="four" id="four">
+        <!-- <img src="./assets/lock.png" alt="lock"  id="lock">
+        <div class="wrapper-overlay"></div> -->
+      </span>
+      <span class="img-wrapper tooltip">
+        <img src="./assets/5.png" class="playable" alt="five" id="five">
+        <!-- <img src="./assets/lock.png" alt="lock"  id="lock">
+        <div class="wrapper-overlay"></div> -->
+      </span>
       <span class="img-wrapper tooltip">
         <img src="./assets/6.png" alt="six" id="six">
         <!-- <img src="./assets/lock.png" alt="lock"  id="lock">
-        <p class="tooltiptext">Coming Soon</p>
         <div class="wrapper-overlay"></div> -->
       </span>
     </div>
@@ -83,14 +96,22 @@
     </div>
   </div>
 
+
+  <div class="container-game-over" id="container-game-over">
+    <div class="box">
+        <h2>Game Over!!!</h2>
+    </div>
+
+    <div class="downbox">    
+      <img src="./assets/restart.png" alt="restart" id="restart">
+    </div>
+  </div>
   <img alt="sound" id="sound" class="volume">
 
-  <audio src="./assets/sounds/bg-sound.mp3" autoplay loop id="bg-sound"></audio>
-  <script
-  type="text/javascript"
-  src="https://code.jquery.com/jquery-1.7.1.min.js"
-></script>;
-  <script type="module" src="./scripts/index.js"></script>
+  <audio src="./assets/sounds/bg-sound.mp3" autoplay loop id="bg-sound" muted></audio>
+
+  <script type="module" src="./scripts/jquery.min.js"></script> 
+  <script type="module" src="./scripts/index.js"></script> 
 </body>
 
 </html>

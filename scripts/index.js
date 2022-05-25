@@ -4,17 +4,17 @@ import Player from "./player.js";
 import Ball from "./ball.js";
 import Level from "./level.js";
 
-const score = document.getElementById("score");
-score.innerText = "0";
-const life = document.getElementById("life");
-life.innerText = "3";
-const level = document.getElementById("level");
-level.innerText = "1";
-
-const canvas = new Canvas(document.getElementById("canvas"));
-window.addEventListener("resize", canvas.setWidthHeight);
-
+let playerScore = 0;
+let playerLife = 5;
+const score = $("#score");
+score.text(playerScore);
+const life = $("#life");
+life.text(playerLife);
+const level = $("#level");
+level.text(1);
 const soundEl = document.getElementById("bg-sound");
+const canvas = new Canvas(document.getElementById("canvas"));
+$(window).on('resize', canvas.setWidthHeight);
 
 let CURRENT_LEVEL = 0;
 
@@ -26,7 +26,6 @@ const levelsBrickStructure = [
     [false, true, false, true, false],
     [true, false, true, false, true],
     [false, true, false, true, false],
-    [true, false, true, false, true]
   ],
   [
     [true, true, true, true, true],
@@ -35,7 +34,6 @@ const levelsBrickStructure = [
     [true, false, true, false, true],
     [true, false, true, false, true],
     [true, false, true, false, true],
-    [true, true, true, true, true]
   ],
   [
     [true, true, true, true],
@@ -44,7 +42,6 @@ const levelsBrickStructure = [
     [true, false, false, false],
     [true, true, false, false],
     [true, true, true, false],
-    [true, true, true, true]
   ],
   [
     [false, false, false, true, false, false, false],
@@ -56,22 +53,21 @@ const levelsBrickStructure = [
     [false, false, false, true, false, false, false]
   ],
   [
-    [true, false, false, false, false, false, false, true, false, true],
-    [true, true, false, false, false, false, true, true, false, true],
-    [true, true, true, false, false, true, true, true, false, true],
-    [true, true, true, true, true, true, true, true, false, true],
-    [true, true, true, false, false, true, true, true, false, true],
-    [true, true, false, false, false, false, true, true, false, true],
-    [true, false, false, false, false, false, false, true, false, true]
+    [false, false, false, false, false, true, false, true],
+    [false, false, false, false, true, true, false, true],
+    [true, false, false, true, true, true, false, true],
+    [ true, true, true, true, true, true, false, true],
+    [ true, false, false, true, true, true, false, true],
+    [ false, false, false, false, true, true, false, true],
+    [ false, false, false, false, false, true, false, true],
   ],
   [
-    [true, false, false, false, false, false, false, true, false, true],
-    [true, true, false, false, false, false, true, true, false, true],
-    [true, true, true, false, false, true, true, true, false, true],
-    [true, true, true, true, true, true, true, true, false, true],
-    [true, true, true, false, false, true, true, true, false, true],
-    [true, true, false, false, false, false, true, true, false, true],
-    [true, false, false, false, false, false, false, true, false, true]
+    [true, false, false, false, false, false, false, true,true],
+    [true, true, false, false, false, false, true, true, false],
+    [true, true, true, false, false, true, true, true, false],
+    [true, false, true, false, true, false, false, true, false],
+    [true, true, true, false, false, true, true, true, false],
+    [true, true, true, true, true, true, true, true, true, true],
   ]
 ];
 const levels = [];
@@ -81,10 +77,11 @@ levelsBrickStructure.forEach(structure => {
 });
 
 function getGame(l) {
-  // console.log(CURRENT_LEVEL);
-  score.innerText = "0";
-  level.innerText = CURRENT_LEVEL + 1;
-  life.innerText = "3";
+
+  if (!l) return;
+  score.text(playerScore);
+  level.text(CURRENT_LEVEL + 1);
+  life.text(playerLife);
   /* LEVEL */
   const COL = l.COL;
   const ROW = l.ROW;
@@ -107,19 +104,19 @@ function getGame(l) {
       }
     }
   }
-  // console.log(BricksArr);
 
   /* PLAYER */
   const player = new Player(
     canvas.width / 2 - COL_WIDTH / 2,
     canvas.height - 3 * COL_HEIGHT,
     (3 * COL_WIDTH) / 2,
-    (2 * COL_HEIGHT) / 3
+    (2 * COL_HEIGHT) / 3,
+    playerScore,
+    playerLife
   );
 
   /* BALL */
   const ball = new Ball(canvas.width / 2, canvas.height / 2, 10, CURRENT_LEVEL);
-  // console.log(ball);
   function isBallCollideWithBrick(ball, brick) {
     return (
       ball.x + ball.radius > brick.x &&
@@ -134,8 +131,11 @@ function getGame(l) {
       if (brick.isVisible && isBallCollideWithBrick(ball, brick)) {
         brick.isVisible = false;
         player.score += 10;
+        let snd = new Audio("../assets/sounds/pop.mp3");
+        snd.play();
         BRICKS_LEFT -= 1;
-        score.innerText = player.score;
+        score.text(player.score);
+        playerScore = player.score;
         ball.yVelocity *= -1;
         if (BRICKS_LEFT === 0) {
           player.isWon = true;
@@ -162,14 +162,22 @@ function getGame(l) {
   }
 
   (function animateGame() {
-    life.innerText = player.life;
+    life.text(player.life);
     if (player.life <= 0) {
-      // console.log("Game Over!");
+      let snd = new Audio("../assets/sounds/game_over.wav");
+      snd.play();
+      gameOver();
       return;
     } else if (player.isWon) {
-      // console.log("Player Won!");
       CURRENT_LEVEL += 1;
-      if (CURRENT_LEVEL < levels.length) getGame(levels[CURRENT_LEVEL]);
+      playerLife +=1;
+      if (CURRENT_LEVEL < levels.length) {
+        alert(`You Win! The next level ${CURRENT_LEVEL + 1}`);
+        getGame(levels[CURRENT_LEVEL]);
+      } else {
+        alert(`You Won!The score ${playerScore}`);
+        location.reload();
+      }
       return;
     }
     clearGame();
@@ -178,7 +186,7 @@ function getGame(l) {
     requestAnimationFrame(animateGame);
   })();
 
-  window.addEventListener("keydown", function (event) {
+  $(window).on("keydown", function (event) {
     if (event.key === "ArrowRight") {
       player.isRight = true;
       player.isLeft = false;
@@ -188,7 +196,7 @@ function getGame(l) {
     }
   });
 
-  window.addEventListener("keyup", function (event) {
+  $(window).on("keyup", function (event) {
     if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
       player.isRight = false;
       player.isLeft = false;
@@ -204,37 +212,47 @@ function getGame(l) {
   const checkMovement = (event, oldX) => {
     player.x += (oldX - event.pageX) / 3;
   };
+
+  function gameOver() {
+    $('#container-game-over').show();
+    allNone();
+    clearGame();
+    $('canvas').hide();
+    $(".bottom").first().css('display', 'none');
+  }
+
+  $('#restart').on('click', function() {
+    removeHome();
+    clearGame();
+    $('canvas').show();
+    $('#container-game-over').hide();
+
+  });
 }
 
-let volume = 1;
+let volume = 2;
 
-document.querySelector(".playBut").addEventListener("click", removeHome);
-document.querySelector(".volume").addEventListener("click", muteSound);
-document.querySelector("#left").addEventListener("click", showHome);
-document.querySelector("#right").addEventListener("click", startGame);
-document.querySelector("#one").addEventListener("click", () => startLevel(0));
-document.querySelector("#two").addEventListener("click", () => startLevel(1));
-document.querySelector("#three").addEventListener("click", () => startLevel(2));
-document.querySelector("#four").addEventListener("click", () => startLevel(3));
-document.querySelector("#five").addEventListener("click", () => startLevel(4));
-document.querySelector("#six").addEventListener("click", () => startLevel(5));
-window.addEventListener("load", move);
+$(".playBut").on('click', removeHome);
+$(".volume").on('click', muteSound);
+$("#left").on('click', showHome);
+$("#right").on('click', startGame);
+$("#one").on('click', () => startLevel(0));
+$("#two").on('click', () => startLevel(1));
+$("#three").on('click', () => startLevel(2));
+$("#four").on('click', () => startLevel(3));
+$("#five").on('click', () => startLevel(4));
+$("#six").on('click', () => startLevel(5));
+$(window).on('load', move);
 
 function removeHome() {
-  var obj = document.getElementsByClassName("home-screen");
-  obj[0].style.display = "none";
-  var obj = document.getElementsByClassName("bottom");
-  obj[0].style.display = "flex";
-  // getGame(levels[CURRENT_LEVEL]);
+  $(".home-screen").first().css('display', 'none');
+  $(".bottom").first().css('display', 'flex');
   showLevelScreen();
 }
 
 function showHome() {
-  var obj = document.getElementsByClassName("container-level");
-  obj[0].style.display = "none";
-
-  var obj = document.getElementsByClassName("home-screen");
-  obj[0].style.display = "flex";
+  $(".container-level").first().css('display', 'none');
+  $(".home-screen").first().css('display', 'flex');
 }
 
 function move() {
@@ -242,24 +260,17 @@ function move() {
 }
 
 function showLevelScreen() {
-  var obj = document.getElementsByClassName("bottom");
-  obj[0].style.display = "none";
-  var obj = document.getElementsByClassName("container-level");
-  obj[0].style.display = "flex";
-  // getGame(levels[CURRENT_LEVEL]);
+  $(".bottom").first().css('display', 'none');
+  $(".container-level").first().css('display', 'flex');
 }
 
 function allNone() {
-  var obj = document.getElementsByClassName("container-level");
-  obj[0].style.display = "none";
-
-  var obj = document.getElementsByClassName("home-screen");
-  obj[0].style.display = "none";
+  $(".container-level").first().css('display', 'none');
+  $(".home-screen").first().css('display', 'none');
 }
 
 function showGameCard() {
-  var obj = document.getElementsByClassName("bottom");
-  obj[0].style.display = "flex";
+  $(".bottom").first().css('display', 'flex');
 }
 
 function startGame() {
@@ -276,13 +287,12 @@ function startLevel(level) {
 }
 
 function muteSound() {
-  console.log(volume);
-  var obj = document.getElementsByClassName("volume");
+  const obj = $(".volume").first();
   if (volume % 2 != 0) {
-    obj[0].id = "mute";
+    obj.attr("id","mute");
     soundEl.pause();
   } else {
-    obj[0].id = "sound";
+    obj.attr("id","sound");
     soundEl.play();
   }
   volume++;
