@@ -3,10 +3,8 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/index.css" />
   <link rel="stylesheet" href="./css/loading.css" />
@@ -14,9 +12,7 @@
   <link rel="stylesheet" href="./css/gameOver.css">
   <title>__PING_PONG_GAME__</title>
 </head>
-
 <body>
-
   <div class="overlay">
     <div class="bottom">
       <div>
@@ -34,23 +30,21 @@
     </div>
   </div>
   <canvas id="canvas"></canvas>
-
   <main class="home-screen">
     <div class="board">
       <div class="ball"></div>
-      <input type="text" name="name" id="yourName" disabled="true">
+      <input type="text" name="name" id="yourName" placeholder="Name">
       <div class="home-screen-title">
         <h3 class="home-screen-title-content">PING PONG GAME</h3>
       </div>
       <div class='container'>
-        <div class='playBut'>
+        <div class='playButton'>
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
             xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="103.7px" height="103.7px"
             viewBox="0 0 213.7 213.7" enable-background="new 0 0 213.7 213.7" xml:space="preserve">
             <polygon class='triangle' id="XMLID_18_" fill="none" stroke-width="15" stroke-linecap="round"
               stroke-linejoin="round" stroke-miterlimit="10" points="
           73.5,62.5 148.5,105.8 73.5,149.1 " />
-
             <circle class='circle' id="XMLID_17_" fill="none" stroke-width="14" stroke-linecap="round"
               stroke-linejoin="round" stroke-miterlimit="10" cx="106.8" cy="106.8" r="100.3" />
           </svg>
@@ -61,7 +55,7 @@
 
   <div class="container-level">
     <img src="./assets/sound.png" alt="sound" id="sound">
-
+    <h3 class="playerName"></h3>
     <div class="levels">
       <img src="./assets/1.png" class="playable" alt="one" id="one">
       <span class="img-wrapper tooltip">
@@ -96,12 +90,10 @@
     </div>
   </div>
 
-
   <div class="container-game-over" id="container-game-over">
     <div class="box">
         <h2>Game Over!!!</h2>
     </div>
-
     <div class="downbox">    
       <img src="./assets/restart.png" alt="restart" id="restart">
     </div>

@@ -232,7 +232,15 @@ function getGame(l) {
 
 let volume = 2;
 
-$(".playBut").on('click', removeHome);
+$(".playButton").on('click', function() {
+  const name = $('#yourName').val();
+  if(!name) {
+    alert('Please insert your name!');
+    return;
+  }
+  $('.playerName').text(`Hello ${name}!`)
+  removeHome();
+});
 $(".volume").on('click', muteSound);
 $("#left").on('click', showHome);
 $("#right").on('click', startGame);

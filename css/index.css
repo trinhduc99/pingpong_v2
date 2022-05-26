@@ -162,13 +162,13 @@ body {
   opacity: 0.3;
 }
 
-.playBut {
+.playButton {
   /*  border: 1px solid red;*/
   display: inline-block;
   transition: all 0.5s ease;
 }
 
-.playBut .triangle {
+.playButton .triangle {
   transition: all 0.7s ease-in-out;
   stroke-dasharray: 240;
   stroke-dashoffset: 480;
@@ -176,7 +176,7 @@ body {
   transform: translateY(0);
 }
 
-.playBut:hover .triangle {
+.playButton:hover .triangle {
   stroke-dashoffset: 0;
   opacity: 1;
   stroke: #000000;
@@ -201,7 +201,7 @@ body {
   }
 }
 
-.playBut:hover .circle {
+.playButton:hover .circle {
   stroke-dashoffset: 0;
   opacity: 1;
 }
@@ -264,4 +264,13 @@ body {
   to {
     background-position: 200% center;
   }
+}
+
+.playerName {
+  position: absolute;
+  z-index: 1;
+  color: wi;
+  color: white;
+  top: 50px;
+  font-size: 6vh;
 }
