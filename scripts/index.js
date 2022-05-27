@@ -170,12 +170,14 @@ function getGame(l) {
       return;
     } else if (player.isWon) {
       CURRENT_LEVEL += 1;
-      playerLife +=1;
+      if (playerLife < 5) {
+        playerLife +=1;
+      }
       if (CURRENT_LEVEL < levels.length) {
         alert(`You Win! The next level ${CURRENT_LEVEL + 1}`);
         getGame(levels[CURRENT_LEVEL]);
       } else {
-        alert(`You Won!The score ${playerScore}`);
+        alert(`You Won!The score now ${playerScore}`);
         location.reload();
       }
       return;
